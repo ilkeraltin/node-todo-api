@@ -3,25 +3,10 @@ const expect = require('chai').expect;
 const { ObjectID } = require('mongodb');
 const { app }  = require('./../server');
 const { Todo } = require('./../models/todo');
+const { todos, populateTodos, user, populateUsers } = require('./seed/seed');
 
-const todos = [{
-    _id: new ObjectID(),
-    text: 'this is first test todo'
-}, {
-    _id: new ObjectID(),
-    text: 'this is second test todo',
-    completed: true,
-    completedAt: 333
-}, {
-    _id: new ObjectID(),
-    text: 'this is third test todo'
-}];
-
-beforeEach((done) => {
-    Todo.remove({}).then(() => {
-        return Todo.insertMany(todos);
-    }).then(() => done());
-})
+beforeEach(populateUsers);
+beforeEach(populateTodos);
 
 describe('TEST /todos', () => {
     it('should add a new todo', (done) => {
